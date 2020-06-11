@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-public class Automatizzatore extends JFrame {
+public class Main extends JFrame {
 
 	/**
 	 * 
@@ -32,7 +32,7 @@ public class Automatizzatore extends JFrame {
 			@Override
 			public void run() {
 				try {
-					Automatizzatore frame = new Automatizzatore();
+					Main frame = new Main();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,7 +45,7 @@ public class Automatizzatore extends JFrame {
 		SwingUtilities.updateComponentTreeUI(this);
 	}
 
-	public Automatizzatore() {
+	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
