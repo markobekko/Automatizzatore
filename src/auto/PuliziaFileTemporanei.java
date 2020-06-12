@@ -140,13 +140,19 @@ public class PuliziaFileTemporanei extends JFrame {
 		BottoneSeleziona.setBounds(343, 216, 142, 25);
 		contentPane.add(BottoneSeleziona);
 
+		JCheckBox[] listaCheckBox = { CheckBox1, CheckBox2, CheckBox3, GoogleCronologia, GoogleCache, GoogleCookie,
+				EdgeCache, EdgeCookie, EdgeCronologia };
+
 		Button1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (CheckBox1.isSelected() || CheckBox2.isSelected() || CheckBox3.isSelected()
-						|| GoogleCronologia.isSelected() || GoogleCache.isSelected() || GoogleCookie.isSelected()
-						|| EdgeCache.isSelected() || EdgeCookie.isSelected() || EdgeCronologia.isSelected()) {
-					BarraCaricamento();
+				// Fa caricare la barra di caricamento se almeno 1 delle checkbox è stata
+				// spuntata
+				for (int i = 0; i < listaCheckBox.length; i++) {
+					if (listaCheckBox[i].isSelected()) {
+						BarraCaricamento();
+						break;
+					}
 				}
 				// Serie di if per vedere qualche CheckBox si è spuntato
 				if (CheckBox1.isSelected()) {
@@ -214,26 +220,14 @@ public class PuliziaFileTemporanei extends JFrame {
 				// Se si preme il pulsante piu di una volta allora fa il contrario di
 				// selezionare tutto
 				if (contatore == 0) {
-					CheckBox1.setSelected(true);
-					CheckBox2.setSelected(true);
-					CheckBox3.setSelected(true);
-					GoogleCronologia.setSelected(true);
-					GoogleCache.setSelected(true);
-					GoogleCookie.setSelected(true);
-					EdgeCookie.setSelected(true);
-					EdgeCronologia.setSelected(true);
-					EdgeCache.setSelected(true);
+					for (int i = 0; i < listaCheckBox.length; i++) {
+						listaCheckBox[i].setSelected(true);
+					}
 					contatore++;
 				} else {
-					CheckBox1.setSelected(false);
-					CheckBox2.setSelected(false);
-					CheckBox3.setSelected(false);
-					GoogleCronologia.setSelected(false);
-					GoogleCache.setSelected(false);
-					GoogleCookie.setSelected(false);
-					EdgeCookie.setSelected(false);
-					EdgeCronologia.setSelected(false);
-					EdgeCache.setSelected(false);
+					for (int i = 0; i < listaCheckBox.length; i++) {
+						listaCheckBox[i].setSelected(false);
+					}
 					contatore = 0;
 				}
 			}

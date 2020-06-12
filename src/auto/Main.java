@@ -19,9 +19,6 @@ import javax.swing.border.EmptyBorder;
 
 public class Main extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6924454176733389805L;
 	private JPanel contentPane;
 	private JTextField textField;
@@ -147,7 +144,7 @@ public class Main extends JFrame {
 							Runtime runtime = Runtime.getRuntime();
 							String annullaShutdown = "shutdown.exe -a";
 							// Se è stato iniziato il shutdown e si preme il bottone allora viene cancellato
-							if (Shutdown == true) {
+							if (Shutdown) {
 								try {
 									runtime.exec(annullaShutdown);
 									JOptionPane.showMessageDialog(null, "Lo shutdown è stato cancellato", "Attenzione",
