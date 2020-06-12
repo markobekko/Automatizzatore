@@ -66,6 +66,7 @@ public class PuliziaFileTemporanei extends JFrame {
 	}
 
 	public PuliziaFileTemporanei() {
+		setTitle("Ottimizzatore File");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 514, 301);

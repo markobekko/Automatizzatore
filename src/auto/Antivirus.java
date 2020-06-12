@@ -12,9 +12,9 @@ import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -53,9 +53,10 @@ public class Antivirus extends JFrame {
 	 * Create the frame.
 	 */
 	public Antivirus() {
+		setTitle("Antivirus");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 421, 199);
+		setBounds(100, 100, 421, 334);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 		contentPane = new JPanel();
@@ -81,6 +82,13 @@ public class Antivirus extends JFrame {
 		Bottone3.setBounds(154, 95, 97, 25);
 		contentPane.add(Bottone3);
 
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(31, 133, 338, 153);
+		contentPane.add(scrollPane);
+
+		JTextArea textArea1 = new JTextArea();
+		textArea1.setEditable(false);
+		scrollPane.setViewportView(textArea1);
 		Bottone1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -149,38 +157,24 @@ public class Antivirus extends JFrame {
 					fileScan = fileCartella.toString();
 				}
 				String dirUser = System.getProperty("user.dir");
-				// System.out.println("1");
-//
-//				PowerShellResponse response = PowerShell.executeSingleCommand("cd " + dir);
-//
-//				System.out.println("2");
-//				System.out.println("List Processes:" + response.getCommandOutput());
-				JLabel Label1 = new JLabel("New label");
-				Label1.setBounds(154, 133, 134, 16);
-				contentPane.add(Label1);
-				Label1.setText("Scansione in corso...");
 				try (PowerShell powerShell = PowerShell.openSession()) {
+					JOptionPane.showMessageDialog(null,
+							"La scansione ora avrà inizio,in base al numero e alla grandezza dei file ci vorrà più tempo,attendere prego",
+							"Attenzione", JOptionPane.INFORMATION_MESSAGE);
 					Map<String, String> config = new HashMap<String, String>();
 					config.put("maxWait", "8000000");
 					// Execute a command in PowerShell session
 					String directory = "cd " + dirUser + "\\ClamAV";
 					PowerShellResponse response = powerShell.executeCommand(directory);
 					// Print results
-					JOptionPane.showMessageDialog(null,
-							"La scansione ora avrà inizio,in base al numero e alla grandezza dei file ci vorrà più tempo,attendere prego"
-									+ response.getCommandOutput(),
-							"Inizio scansione", JOptionPane.INFORMATION_MESSAGE);
-					JOptionPane.showMessageDialog(null,
-							"Se il risultato della scansione è 'OK' allora il file non contiene virus,sennò contiene un virus"
-									+ response.getCommandOutput(),
-							"Attenzione", JOptionPane.INFORMATION_MESSAGE);
-
 					// Execute another command in the same PowerShell session
 					response = powerShell.configuration(config)
 							.executeCommand(".\\clamscan.exe --recursive " + fileScan);
-					Label1.setText("Scansione completata");
-					JOptionPane.showMessageDialog(null, "" + response.getCommandOutput(), "Risultato:",
-							JOptionPane.INFORMATION_MESSAGE);
+					textArea1.append("Scansione completata:\n");
+					textArea1.append(response.getCommandOutput());
+					if (response.getCommandOutput().contains(": OK")) {
+						System.out.println("ciao");
+					}
 				}
 			}
 		});

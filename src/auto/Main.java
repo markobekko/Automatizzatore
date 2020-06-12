@@ -46,6 +46,7 @@ public class Main extends JFrame {
 	}
 
 	public Main() {
+		setTitle("Automatizzatore");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -149,7 +150,6 @@ public class Main extends JFrame {
 									JOptionPane.showMessageDialog(null, "Lo shutdown è stato cancellato", "Attenzione",
 											JOptionPane.INFORMATION_MESSAGE);
 								} catch (IOException e1) {
-									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
 								Shutdown = false;
