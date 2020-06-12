@@ -104,6 +104,7 @@ public class Antivirus extends JFrame {
 						textArea.setText("");
 						Antivirus frame = new Antivirus();
 						JFileChooser chooser = new JFileChooser();
+						// Apre la schermata di selezione dell file e la imposta della textArea
 						if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
 							File file = chooser.getSelectedFile();
 							textArea.setText(file.getAbsolutePath());
@@ -129,6 +130,7 @@ public class Antivirus extends JFrame {
 						textArea.setText(null);
 						Antivirus frame = new Antivirus();
 						JFileChooser chooser = new JFileChooser();
+						// Apre la schermata di selezione della cartella e la imposta della textArea
 						chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 						if (chooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION) {
 							File file = chooser.getSelectedFile();
@@ -143,6 +145,7 @@ public class Antivirus extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(textArea.getText());
+				// Se non si è selezionato un file allora da errore
 				switch (textArea.getText()) {
 				case "":
 					JOptionPane.showMessageDialog(null, "Selezionare un file o una cartella", "Errore",
@@ -151,6 +154,7 @@ public class Antivirus extends JFrame {
 				default:
 				}
 				String fileScan;
+				// Assegno a fileScan o il file singolo o la cartella
 				if (fileSingolo != null) {
 					fileScan = fileSingolo.toString();
 				} else {
@@ -161,15 +165,16 @@ public class Antivirus extends JFrame {
 					JOptionPane.showMessageDialog(null,
 							"La scansione ora avrà inizio,in base al numero e alla grandezza dei file ci vorrà più tempo,attendere prego",
 							"Attenzione", JOptionPane.INFORMATION_MESSAGE);
+					// Tempo massimo di wait
 					Map<String, String> config = new HashMap<String, String>();
 					config.put("maxWait", "8000000");
-					// Execute a command in PowerShell session
 					String directory = "cd " + dirUser + "\\ClamAV";
+					// Faccio eseguire a powershell cd cosi da cambiare directory nell'antivirus
 					PowerShellResponse response = powerShell.executeCommand(directory);
-					// Print results
-					// Execute another command in the same PowerShell session
+					// Faccio eseguire il comando di scansione dei file
 					response = powerShell.configuration(config)
 							.executeCommand(".\\clamscan.exe --recursive " + fileScan);
+					// Stampa della completazione della scansione
 					textArea1.append("Scansione completata:\n");
 					textArea1.append(response.getCommandOutput());
 					if (response.getCommandOutput().contains(": OK")) {

@@ -98,6 +98,7 @@ public class Main extends JFrame {
 				Label1.setVisible(false);
 				Bottone2.setVisible(false);
 				Bottone3.setVisible(false);
+				// If per vedere quali delle scelte possibili si è scelto
 				if (comboBox.getSelectedItem() == "Pulire i file temporanei") {
 					PuliziaFileTemporanei pulizia = new PuliziaFileTemporanei();
 					pulizia.setVisible(true);
@@ -114,9 +115,11 @@ public class Main extends JFrame {
 						public void actionPerformed(ActionEvent e) {
 							Runtime runtime = Runtime.getRuntime();
 							String testo = textField.getText();
+							// Shutdown per il pc
 							try {
 								int tempo = Integer.parseInt(testo);
 								@SuppressWarnings("unused")
+								// Il tempo è inseruto dall'utente nel textField
 								String shutdownCommand = null, t = tempo == 0 ? "now" : String.valueOf(tempo);
 
 								shutdownCommand = "shutdown.exe -s -t " + tempo;
@@ -130,7 +133,6 @@ public class Main extends JFrame {
 								}
 
 							} catch (Exception e2) {
-								System.out.println("Errore");
 								JOptionPane.showMessageDialog(null, "Inserire un numero valido", "Errore",
 										JOptionPane.ERROR_MESSAGE);
 							}
@@ -144,6 +146,7 @@ public class Main extends JFrame {
 						public void actionPerformed(ActionEvent e) {
 							Runtime runtime = Runtime.getRuntime();
 							String annullaShutdown = "shutdown.exe -a";
+							// Se è stato iniziato il shutdown e si preme il bottone allora viene cancellato
 							if (Shutdown == true) {
 								try {
 									runtime.exec(annullaShutdown);

@@ -25,6 +25,7 @@ public class PuliziaFileTemporanei extends JFrame {
 	static JButton Button1 = new JButton("PULISCI");
 
 	public static void eliminaDirectory(File directory) {
+		// For per cancellare i file in una directory,non importa la quantità di file
 		for (File file : directory.listFiles()) {
 			if (file.isDirectory())
 				eliminaDirectory(file);
@@ -47,6 +48,8 @@ public class PuliziaFileTemporanei extends JFrame {
 			@SuppressWarnings("static-access")
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Se index è minore del massimo allora si incrementa sennò finisci e se si
+				// cancella dinuovo si resetta il contatore
 				if (index < maxIndex) {
 					Button1.setEnabled(false);
 					progressBar.setValue(index);
@@ -145,6 +148,7 @@ public class PuliziaFileTemporanei extends JFrame {
 						|| EdgeCache.isSelected() || EdgeCookie.isSelected() || EdgeCronologia.isSelected()) {
 					BarraCaricamento();
 				}
+				// Serie di if per vedere qualche CheckBox si è spuntato
 				if (CheckBox1.isSelected()) {
 					String path = System.getProperty("user.home") + File.separator + "AppData" + File.separator
 							+ "Local" + File.separator + "Temp";
@@ -207,6 +211,8 @@ public class PuliziaFileTemporanei extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// Se si preme il pulsante piu di una volta allora fa il contrario di
+				// selezionare tutto
 				if (contatore == 0) {
 					CheckBox1.setSelected(true);
 					CheckBox2.setSelected(true);
