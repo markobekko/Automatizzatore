@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -23,19 +24,39 @@ public class Main extends JFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	public static boolean Shutdown = false;
+	public static int Amministratore = 2;
+	public static String dirUser = System.getProperty("user.dir");
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					Main frame = new Main();
-					frame.setVisible(true);
+					isAdmin();
+					System.out.println(Amministratore);
+					if (Amministratore == 1) {
+						Main frame = new Main();
+						frame.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "Perfavore avviare il programma come amministratore",
+								"Errore", JOptionPane.ERROR_MESSAGE);
+					}
+					return;
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+	}
+
+	public static int isAdmin() {
+		String groups[] = (new com.sun.security.auth.module.NTSystem()).getGroupIDs();
+		for (String group : groups) {
+			if (group.equals("S-1-5-32-544")) {
+				return Amministratore = 1;
+			}
+		}
+		return Amministratore = 0;
 	}
 
 	private void updateUI() {
@@ -159,8 +180,15 @@ public class Main extends JFrame {
 
 					});
 				} else if (comboBox.getSelectedItem() == "Scansione Antivirus") {
-					Antivirus antivirus = new Antivirus();
-					antivirus.setVisible(true);
+					String dir = dirUser + "\\ClamAV";
+					File directory = new File(dir);
+					if (directory.exists() && directory.isDirectory()) {
+						Antivirus antivirus = new Antivirus();
+						antivirus.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(null, "Antivirus non trovato", "Errore",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 
 			}

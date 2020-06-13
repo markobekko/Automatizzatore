@@ -34,6 +34,8 @@ public class Antivirus extends JFrame {
 
 	public static File fileSingolo = null;
 	public static File fileCartella = null;
+	// Tempo massimo di wait
+	public static Map<String, String> config = new HashMap<String, String>();
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -56,7 +58,7 @@ public class Antivirus extends JFrame {
 		setTitle("Antivirus");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setBounds(100, 100, 421, 334);
+		setBounds(100, 100, 425, 370);
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 		contentPane = new JPanel();
@@ -89,6 +91,10 @@ public class Antivirus extends JFrame {
 		JTextArea textArea1 = new JTextArea();
 		textArea1.setEditable(false);
 		scrollPane.setViewportView(textArea1);
+
+		JButton BottoneAggiorna = new JButton("Aggiorna Antivirus");
+		BottoneAggiorna.setBounds(232, 299, 175, 25);
+		contentPane.add(BottoneAggiorna);
 		Bottone1.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -165,8 +171,7 @@ public class Antivirus extends JFrame {
 					JOptionPane.showMessageDialog(null,
 							"La scansione ora avrà inizio,in base al numero e alla grandezza dei file ci vorrà più tempo,attendere prego",
 							"Attenzione", JOptionPane.INFORMATION_MESSAGE);
-					// Tempo massimo di wait
-					Map<String, String> config = new HashMap<String, String>();
+
 					config.put("maxWait", "8000000");
 					String directory = "cd " + dirUser + "\\ClamAV";
 					// Faccio eseguire a powershell cd cosi da cambiare directory nell'antivirus
@@ -180,6 +185,25 @@ public class Antivirus extends JFrame {
 					if (response.getCommandOutput().contains(": OK")) {
 						System.out.println("ciao");
 					}
+				}
+			}
+		});
+		BottoneAggiorna.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String dirUser = System.getProperty("user.dir");
+				try (PowerShell powerShell = PowerShell.openSession()) {
+					config.put("maxWait", "8000000");
+					String directory = "cd " + dirUser + "\\ClamAV";
+					System.out.println(directory);
+					// Faccio eseguire a powershell cd cosi da cambiare directory nell'antivirus
+					PowerShellResponse response = powerShell.executeCommand(directory);
+					response = powerShell.configuration(config).executeCommand(".\\freshclam.exe");
+					textArea1.setText(response.getCommandOutput());
+					JOptionPane.showMessageDialog(null, "L'aggiornamento è stato completato", "Attenzione",
+							JOptionPane.INFORMATION_MESSAGE);
+
 				}
 			}
 		});

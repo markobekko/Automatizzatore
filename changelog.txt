@@ -1,0 +1,16 @@
+2.1
+Risolto bug che quando cancellavi non faceva accedere alla cartella
+2.2
+Apertura del programma al centro dello schermo
+3.0
+Aggiunto antivirus opensource (ClamAV)
+Aggiunta anche schermata per scannerizzare sia file singolo che cartella con display se è virus
+oppure no
+3.5
+Aggiunta console in cui ci sono scritti i file scannerizzati
+3.6
+Ottimizzazione del codice
+4.0
+Aggiunto update per aggiornare l'antivirus
+Aggiunto errore se non si ha l'antivirus nella stessa cartella
+Se non avvii il programma come amministratore ora da errore
